@@ -7,6 +7,6 @@ import {
 
 const router = express.Router();
 
-router.get("/", getOrders);
+router.get("/get_orders", getOrders);
 
 export default router;
