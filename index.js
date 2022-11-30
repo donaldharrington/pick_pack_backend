@@ -32,7 +32,11 @@ app.get("/.well-known/acme-challenge/F7gRJoQA7DbDXUoZdTLUAptqx72y4vAAnzBSJYkDLmI
 });
 
 app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "/public/index.html"));
+    res.json({ 
+        status: 0, 
+        msg: "Wrong request"
+      });
+    // res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 if (fs.existsSync("/home/ubuntu/keys/privkey.pem")) {
