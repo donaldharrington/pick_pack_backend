@@ -9,8 +9,6 @@ import path, { dirname } from "path";
 import config from "./config/config.js";
 import router from "./routes/index.js";
 
-// this is a test
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -22,8 +20,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+/*
 app.use('/assets', express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/public'));
+*/
 
 app.use("/api/v1", router);
 
@@ -48,7 +48,6 @@ if (fs.existsSync("/home/ubuntu/keys/privkey.pem")) {
     const server = http.Server(app);
 
     server.listen(port, /*host,*/ () => {
-        // logger.info(`express server is running on ${host}:${port}`);
         // console.log(`express server is running on ${host}:${port}`)
     });
 
