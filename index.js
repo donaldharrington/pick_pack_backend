@@ -9,6 +9,8 @@ import path, { dirname } from "path";
 import config from "./config/config.js";
 import router from "./routes/index.js";
 
+// this is a test
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
