@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import http from "http";
 import https from "https";
 import bodyParser from "body-parser";
@@ -16,10 +15,6 @@ const __dirname = dirname(__filename);
 const host = config.serverHost;
 const port = config.serverPort;
 const app = express();
-
-mongoose.set('useCreateIndex', true);
-mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://127.0.0.1:27017/superkitchen_community`,  { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(cors());
 app.use(bodyParser.json());
