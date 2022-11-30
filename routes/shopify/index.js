@@ -20,6 +20,13 @@ import {
     updateCustomerByID
 } from "../../controllers/customers.js";
 
+import {
+    getProductByID,
+    getProducts,
+    getProductCount, 
+    deleteProductByID
+} from "../../controllers/products.js";
+
 const router = express.Router();
 
 router.get("/get_order", getOrderByID);
@@ -36,5 +43,10 @@ router.get("/get_customers", getCustomers);
 router.get("/get_customer_count", getCustomerCount);
 router.get("/delete_customer", deleteCustomerByID);
 router.post("/update_customer", updateCustomerByID);
+
+router.get("/get_product", getProductByID);
+router.get("/get_products", getProducts);
+router.get("/get_product_count", getProductCount);
+router.get("/delete_product", deleteProductByID);
 
 export default router;

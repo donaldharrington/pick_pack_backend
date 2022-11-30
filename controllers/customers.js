@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Customers } from "shopify-admin-api";
 import config from "../config/config.js";
 

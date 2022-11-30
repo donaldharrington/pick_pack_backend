@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Orders } from "shopify-admin-api";
 import config from "../config/config.js";
 
@@ -26,7 +25,15 @@ export const getOrders = async (req, res, next) => {
     const confirmed = req.query.confirmed;
 
     const service = new Orders(shopDomain, shopAccessToken);
-    const orders = await service.list();
+    // https://shopify.dev/api/usage/search-syntax
+    const orders = await service.list(
+      /*
+      {
+        limit : 100,
+        query : 'browser_ip:121.214.82.163 AND checkout_id:26918189793452 AND id:4997663817900'
+      }
+      */
+    );
     res.json({ 
       status      : 1, 
       count       : orders.length,
