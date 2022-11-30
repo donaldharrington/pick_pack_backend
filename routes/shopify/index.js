@@ -10,7 +10,15 @@ import {
     closeOrderByID, 
     cancelOrderByID, 
     updateOrderByID
-} from "../../controllers/shopify.js";
+} from "../../controllers/orders.js";
+
+import {
+    getCustomerByID,
+    getCustomers,
+    getCustomerCount, 
+    deleteCustomerByID, 
+    updateCustomerByID
+} from "../../controllers/customers.js";
 
 const router = express.Router();
 
@@ -22,5 +30,11 @@ router.get("/delete_order", deleteOrderByID);
 router.get("/close_order", closeOrderByID);
 router.get("/cancel_order", cancelOrderByID);
 router.post("/update_order", updateOrderByID);
+
+router.get("/get_customer", getCustomerByID);
+router.get("/get_customers", getCustomers);
+router.get("/get_customer_count", getCustomerCount);
+router.get("/delete_customer", deleteCustomerByID);
+router.post("/update_customer", updateCustomerByID);
 
 export default router;
