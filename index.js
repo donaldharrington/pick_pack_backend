@@ -47,7 +47,7 @@ if (fs.existsSync("/home/ubuntu/keys/privkey.pem")) {
 } else {
     const server = http.Server(app);
 
-    server.listen(port, host, () => {
+    server.listen(port, /*host,*/ () => {
         // logger.info(`express server is running on ${host}:${port}`);
         console.log(`express server is running on ${host}:${port}`)
     });
