@@ -48,8 +48,8 @@ export const getUnfulfilledOrders = async (req, res, next) => {
         {
           limit     : 250,
           query     : 'fulfillment_status:unshipped AND financial_status:paid AND id:<' + order_id,         // AND processing_method:express AND  financial_status:paid
-          /*fields    : 'id, created_at, currency, current_subtotal_price, financial_status, fulfillment_status, name, note, processing_method, customer'*/
-          fields    : 'id, fulfillment_status, created_at',
+          fields    : 'id, created_at, currency, current_subtotal_price, financial_status, fulfillment_status, name, note, processing_method, customer'
+          /*fields    : 'id, fulfillment_status, created_at',*/
         }
       );
       if ( sub_orders.length < 1 ) break;
