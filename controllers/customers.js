@@ -20,12 +20,46 @@ export const getCustomerByID = async (req, res, next) => {
   }
 };
 
+export const getCustomerByEmail = async (req, res, next) => {
+  try {
+    const email = req.query.email; 
+    const service = new Customers(shopDomain, shopAccessToken);
+    const customers = await service.list(
+      {
+        email: email
+      }
+    );
+
+    if ( customers.length < 1 ) {
+      res.json({ 
+        status    : 0,
+        msg       : "check customer validation", 
+        customers : null
+      });
+    } else {
+      res.json({ 
+        status    : 1,
+        msg       : "check customer validation", 
+        customer  : customers[0]
+      });
+    } 
+    
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getCustomers = async (req, res, next) => {
   try {
     const confirmed = req.query.confirmed;
 
     const service = new Customers(shopDomain, shopAccessToken);
-    const customers = await service.list();
+    const customers = await service.list(
+      {
+        email: 'ian@webanimtech.com'
+      }
+    );
+
     res.json({ 
       status      : 1, 
       count       : customers.length,

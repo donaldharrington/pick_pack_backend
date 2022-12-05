@@ -20,20 +20,43 @@ export const getOrderByID = async (req, res, next) => {
   }
 };
 
-export const getOrders = async (req, res, next) => {
+export const getUnfulfilledOrders = async (req, res, next) => {
   try {
     const confirmed = req.query.confirmed;
 
     const service = new Orders(shopDomain, shopAccessToken);
-    // https://shopify.dev/api/usage/search-syntax
-    const orders = await service.list(
-      /*
-      {
-        limit : 100,
-        query : 'browser_ip:121.214.82.163 AND checkout_id:26918189793452 AND id:4997663817900'
-      }
-      */
-    );
+    /**
+     -fulfillment_status: 
+        fulfilled   : Every line item in the order has been fulfilled.
+        null        : None of the line items in the order have been fulfilled.
+        partial     : At least one line item in the order has been fulfilled.
+        restocked   : Every line item in the order has been restocked and the order canceled. 
+        unshipped   : Show orders that have not yet been shipped. Returns orders with fulfillment_status of null.
+        any         : Show orders of any fulfillment status.    
+    -status : 
+        open        : Show only open orders.
+        closed      : Show only closed orders.
+        cancelled   : Show only canceled orders.
+        any         : Show orders of any status, including archived orders.     
+    link: https://shopify.dev/api/admin-rest/2022-10/resources/order
+    */
+
+    let orders = [];
+    let order_id = 1005002586063020;
+    while ( true ) {
+      let sub_orders = await service.list(
+        {
+          limit     : 250,
+          query     : 'fulfillment_status:unshipped AND financial_status:paid AND id:<' + order_id,         // AND processing_method:express AND  financial_status:paid
+          /*fields    : 'id, created_at, currency, current_subtotal_price, financial_status, fulfillment_status, name, note, processing_method, customer'*/
+          fields    : 'id, fulfillment_status, created_at',
+        }
+      );
+      if ( sub_orders.length < 1 ) break;
+      order_id = sub_orders[sub_orders.length - 1]['id'];
+      orders = [...orders, ...sub_orders];
+    }
+
     res.json({ 
       status      : 1, 
       count       : orders.length,

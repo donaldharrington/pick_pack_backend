@@ -25,7 +25,12 @@ export const getProducts = async (req, res, next) => {
     const confirmed = req.query.confirmed;
 
     const service = new Products(shopDomain, shopAccessToken);
-    const products = await service.list();
+    const products = await service.list(
+      {
+        limit       : 250,
+        fields      : 'id, created_at',
+      }
+    );
     res.json({ 
       status      : 1, 
       count       : products.length,

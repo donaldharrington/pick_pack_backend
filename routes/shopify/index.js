@@ -1,9 +1,12 @@
 import express from "express";
 
+import {
+    getShopInfo
+} from "../../controllers/shops.js";
 
 import {
     getOrderByID,
-    getOrders,
+    getUnfulfilledOrders,
     getOrderCount, 
     openOrderByID,
     deleteOrderByID,
@@ -14,6 +17,7 @@ import {
 
 import {
     getCustomerByID,
+    getCustomerByEmail,
     getCustomers,
     getCustomerCount, 
     deleteCustomerByID, 
@@ -29,8 +33,10 @@ import {
 
 const router = express.Router();
 
+router.get("/get_shop_info", getShopInfo);
+
 router.get("/get_order", getOrderByID);
-router.get("/get_orders", getOrders);
+router.get("/get_orders", getUnfulfilledOrders);
 router.get("/get_order_count", getOrderCount);
 router.get("/open_order", openOrderByID);
 router.get("/delete_order", deleteOrderByID);
@@ -39,6 +45,7 @@ router.get("/cancel_order", cancelOrderByID);
 router.post("/update_order", updateOrderByID);
 
 router.get("/get_customer", getCustomerByID);
+router.get("/is_customer", getCustomerByEmail);
 router.get("/get_customers", getCustomers);
 router.get("/get_customer_count", getCustomerCount);
 router.get("/delete_customer", deleteCustomerByID);

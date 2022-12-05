@@ -1,22 +1,18 @@
-import { Auth, Shops  } from "shopify-admin-api";
+import { Shops  } from "shopify-admin-api";
 import config from "../config/config.js";
 
 const shopDomain        = config.shopDomain;
 const shopAccessToken   = config.shopAccessToken;
 
 
-export const isValidDomain = async (req, res, next) => {
+export const getShopInfo = async (req, res, next) => {
   try {
-    const domain = req.query.domain; 
-    const isValidUrl = await Auth.isValidShopifyDomain(domain)
-
     const service = new Shops(shopDomain, shopAccessToken);
     const shops = await service.get();
 
     res.json({ 
       status      : 1,
-      msg         : "check Shopify domain validation", 
-      isValidUrl  : isValidUrl,
+      msg         : "get shop detail infomation", 
       shops       : shops
     });
   } catch (error) {
