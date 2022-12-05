@@ -12,7 +12,8 @@ import {
     deleteOrderByID,
     closeOrderByID, 
     cancelOrderByID, 
-    updateOrderByID
+    updateOrderByID,
+    updateOrderNoteByID
 } from "../../controllers/orders.js";
 
 import {
@@ -27,6 +28,7 @@ import {
 import {
     getProductByID,
     getProducts,
+    getProductsByIDs, 
     getProductCount, 
     deleteProductByID
 } from "../../controllers/products.js";
@@ -43,6 +45,7 @@ router.get("/delete_order", deleteOrderByID);
 router.get("/close_order", closeOrderByID);
 router.get("/cancel_order", cancelOrderByID);
 router.post("/update_order", updateOrderByID);
+router.get("/update_order_note", updateOrderNoteByID);
 
 router.get("/get_customer", getCustomerByID);
 router.get("/is_customer", getCustomerByEmail);
@@ -53,6 +56,7 @@ router.post("/update_customer", updateCustomerByID);
 
 router.get("/get_product", getProductByID);
 router.get("/get_products", getProducts);
+router.get("/get_products_via_ids", getProductsByIDs);
 router.get("/get_product_count", getProductCount);
 router.get("/delete_product", deleteProductByID);
 

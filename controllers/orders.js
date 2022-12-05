@@ -48,8 +48,7 @@ export const getUnfulfilledOrders = async (req, res, next) => {
         {
           limit     : 250,
           query     : 'fulfillment_status:unshipped AND financial_status:paid AND id:<' + order_id,         // AND processing_method:express AND  financial_status:paid
-          fields    : 'id, created_at, currency, current_subtotal_price, financial_status, fulfillment_status, name, note, processing_method, customer'
-          /*fields    : 'id, fulfillment_status, created_at',*/
+          fields    : 'id, created_at, currency, current_subtotal_price, financial_status, fulfillment_status, name, note, processing_method, customer, line_items'
         }
       );
       if ( sub_orders.length < 1 ) break;
@@ -152,7 +151,7 @@ export const updateOrderByID = async (req, res, next) => {
     const norder = req.body.order;
 
     const service = new Orders(shopDomain, shopAccessToken);
-    const order = await service.close(id);
+    const order = await service.get(id);
 
     let keys = Object.keys(norder);    
     keys.forEach(key => {
@@ -164,6 +163,28 @@ export const updateOrderByID = async (req, res, next) => {
     res.json({ 
       status    : 1,
       msg       : "updated order", 
+      order     : order
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateOrderNoteByID = async (req, res, next) => {
+  try {
+    const id = req.query.id; 
+    const note = req.query.note;
+
+    const service = new Orders(shopDomain, shopAccessToken);
+    let order = await service.get(id);
+
+    order.note = note;
+    
+    order = await service.update(id, order);
+
+    res.json({ 
+      status    : 1,
+      msg       : "updated order's note", 
       order     : order
     });
   } catch (error) {

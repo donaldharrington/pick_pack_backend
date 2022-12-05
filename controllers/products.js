@@ -28,7 +28,8 @@ export const getProducts = async (req, res, next) => {
     const products = await service.list(
       {
         limit       : 250,
-        fields      : 'id, created_at',
+        query       : '', 
+        /*fields      : 'id, created_at',*/
       }
     );
     res.json({ 
@@ -41,6 +42,31 @@ export const getProducts = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getProductsByIDs = async (req, res, next) => {
+  try {
+    const ids = req.query.ids; // example: '1234567,12345678'
+    let arr_ids = ids.split(",");
+    let products = [];
+    const service = new Products(shopDomain, shopAccessToken);
+
+    for (let index = 0; index < arr_ids.length; index++) {
+      const id = arr_ids[index];
+      let product = await service.get(id);
+      products.push(product);
+    }
+
+    res.json({ 
+      status      : 1, 
+      count       : products.length,
+      msg         : "get Product list via ids",
+      products    : products 
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 export const getProductCount = async (req, res, next) => {
   try {
