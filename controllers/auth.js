@@ -10,8 +10,10 @@ export const isValidDomain = async (req, res, next) => {
     const domain = req.query.domain; 
     const isValidUrl = await Auth.isValidShopifyDomain(domain)
 
+    const shops = null;
+
     const service = new Shops(shopDomain, shopAccessToken);
-    const shops = await service.get();
+    if ( isValidUrl ) shops = await service.get();
 
     res.json({ 
       status      : 1,
