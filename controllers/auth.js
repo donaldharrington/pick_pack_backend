@@ -10,7 +10,7 @@ export const isValidDomain = async (req, res, next) => {
     const domain = req.query.domain; 
     const isValidUrl = await Auth.isValidShopifyDomain(domain)
 
-    const shops = null;
+    let shops = null;
 
     const service = new Shops(shopDomain, shopAccessToken);
     if ( isValidUrl ) shops = await service.get();
