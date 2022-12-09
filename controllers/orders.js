@@ -48,7 +48,7 @@ export const getUnfulfilledOrders = async (req, res, next) => {
         {
           limit     : 250,
           query     : 'fulfillment_status:unshipped AND financial_status:paid AND id:<' + order_id,         // AND processing_method:express AND  financial_status:paid
-          fields    : 'id, created_at, currency, current_subtotal_price, financial_status, fulfillment_status, name, note, processing_method, customer, line_items'
+          fields    : 'id, created_at, tags, currency, current_subtotal_price, financial_status, fulfillment_status, name, note, processing_method, customer, line_items'
         }
       );
       if ( sub_orders.length < 1 ) break;
@@ -56,11 +56,29 @@ export const getUnfulfilledOrders = async (req, res, next) => {
       orders = [...orders, ...sub_orders];
     }
 
+    let pick_orders = [];   // unfulfilled and not have tag from this app
+    let pack_orders = [];    // unfulfilled and have tag from this app
+
+    let tags = "";
+    let pattern = "Pick and Pack By ";
+    pick_orders = orders.filter( (order) => {
+      tags = order.tags;
+      return tags.indexOf(pattern) == -1;
+    });
+
+    pack_orders = orders.filter( (order) => {
+      tags = order.tags;
+      return tags.indexOf(pattern) !== -1;
+    });
+
     res.json({ 
-      status      : 1, 
-      count       : orders.length,
-      msg         : "get total order list",
-      orders      : orders 
+      status        : 1, 
+      count         : orders.length,
+      pick_count    : pick_orders.length,
+      pack_count    : pack_orders.length,
+      msg           : "get total pick and pack order list",
+      pick_orders   : pick_orders, 
+      pack_orders   : pack_orders 
     });
   } catch (error) {
     next(error);
@@ -185,6 +203,29 @@ export const updateOrderNoteByID = async (req, res, next) => {
     res.json({ 
       status    : 1,
       msg       : "updated order's note", 
+      order     : order
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateOrderTagByID = async (req, res, next) => {
+  try {
+    const id = req.query.id; 
+    const fullname = req.query.fullname;
+    const tag = "Pick and Pack By " + fullname;
+
+    const service = new Orders(shopDomain, shopAccessToken);
+    let order = await service.get(id);
+
+    order.tags = order.tags + ", " + tag;
+    
+    order = await service.update(id, order);
+
+    res.json({ 
+      status    : 1,
+      msg       : "updated order's tags", 
       order     : order
     });
   } catch (error) {

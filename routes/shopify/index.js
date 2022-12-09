@@ -13,7 +13,8 @@ import {
     closeOrderByID, 
     cancelOrderByID, 
     updateOrderByID,
-    updateOrderNoteByID
+    updateOrderNoteByID, 
+    updateOrderTagByID
 } from "../../controllers/orders.js";
 
 import {
@@ -45,7 +46,8 @@ router.get("/delete_order", deleteOrderByID);
 router.get("/close_order", closeOrderByID);
 router.get("/cancel_order", cancelOrderByID);
 router.post("/update_order", updateOrderByID);
-router.get("/update_order_note", updateOrderNoteByID);
+router.get("/update_order_note", updateOrderNoteByID); 
+router.get("/update_order_tags", updateOrderTagByID);
 
 router.get("/get_customer", getCustomerByID);
 router.get("/is_customer", getCustomerByEmail);
