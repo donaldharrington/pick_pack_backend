@@ -220,7 +220,7 @@ export const updateOrderTagByID = async (req, res, next) => {
     let order = await service.get(id);
 
     let old_tags = order.tags;
-    if ( old_tags.indexOf(pattern) !== -1 ) {
+    if ( old_tags.indexOf(fullname) !== -1 ) {
       res.json({ 
         status    : 1,
         msg       : "already exist this tag", 
