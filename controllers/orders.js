@@ -219,7 +219,17 @@ export const updateOrderTagByID = async (req, res, next) => {
     const service = new Orders(shopDomain, shopAccessToken);
     let order = await service.get(id);
 
-    order.tags = order.tags + ", " + tag;
+    let old_tags = order.tags;
+    if ( tags.indexOf(pattern) !== -1 ) {
+      res.json({ 
+        status    : 1,
+        msg       : "already exist this tag", 
+        order     : order
+      });
+      return;
+    }
+
+    order.tags = old_tags + ", " + tag;
     
     order = await service.update(id, order);
 
