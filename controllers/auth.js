@@ -55,19 +55,21 @@ export const signinUser = async (req, res, next) => {
         if (err) { throw err; }
         if ( rows.length < 1 ) {
           res.json({ 
-            status    : 0,
+            status    : 1,
             msg       : "Not register to database", 
           });
         } else {
           let dpassword = rows[0]["password"];
+          let full_name = rows[0]["full_name"];
           if ( dpassword != password ) {
             res.json({ 
-              status    : 0,
+              status    : 2,
               msg       : "Invalid password", 
             });
           } else {
             res.json({ 
-              status    : 1,
+              status    : 3,
+              full_name : full_name, 
               msg       : "Success to login", 
             });
           }          
