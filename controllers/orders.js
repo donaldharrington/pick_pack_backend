@@ -214,7 +214,7 @@ export const updateOrderTagByID = async (req, res, next) => {
   try {
     const id = req.query.id; 
     const fullname = req.query.fullname;
-    const tag = "Pick and Pack By " + fullname;
+    const tag = "Picked By " + fullname;
 
     const service = new Orders(shopDomain, shopAccessToken);
     let order = await service.get(id);
