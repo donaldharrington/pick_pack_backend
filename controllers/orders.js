@@ -60,7 +60,7 @@ export const getUnfulfilledOrders = async (req, res, next) => {
     let pack_orders = [];    // unfulfilled and have tag from this app
 
     let tags = "";
-    let pattern = "Pick and Pack By ";
+    let pattern = "Picked By ";
     pick_orders = orders.filter( (order) => {
       tags = order.tags;
       return tags.indexOf(pattern) == -1;
