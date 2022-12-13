@@ -59,15 +59,14 @@ export const getUnfulfilledOrders = async (req, res, next) => {
     let pick_orders = [];   // unfulfilled and not have tag from this app
     let pack_orders = [];    // unfulfilled and have tag from this app
 
-    let tags = "";
     let pattern = "Picked By ";
     pick_orders = orders.filter( (order) => {
-      tags = order.tags;
+      let tags = order.tags;
       return tags.indexOf(pattern) == -1;
     });
 
     pack_orders = orders.filter( (order) => {
-      tags = order.tags;
+      let tags = order.tags;
       return tags.indexOf(pattern) !== -1;
     });
 
